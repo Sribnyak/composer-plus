@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">Composer Plus</string>
+    <string name="btnTempo">Tempo = %d</string>
+    <string name="btnPlay">▶</string>
+    <string name="btnStop">■</string>
+    <string name="Backspace">⌫</string>
+    <string name="noteC">C</string>
+    <string name="noteCis">C♯</string>
+    <string name="noteD">D</string>
+    <string name="noteEs">D♯</string>
+    <string name="noteE">E</string>
+    <string name="noteF">F</string>
+    <string name="noteFis">F♯</string>
+    <string name="noteG">G</string>
+    <string name="noteGis">G♯</string>
+    <string name="noteA">A</string>
+    <string name="noteB">A♯</string>
+    <string name="noteH">B</string>
+    <string name="btnRest">—</string>
+    <string name="btnUp">8va</string>
+    <string name="btnDn">8vb</string>
+    <string name="btnPlus">v++</string>
+    <string name="btnMinus">v––</string>
+    <string name="emptyEditText">Enter something</string>
+    <string name="btnDot">•</string>
+    <string name="dialogTempo">Tempo</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="apply">Apply</string>
+    <string name="maxLen">This is the maximum length, stop please</string>
+    <string name="menuTextEditing">Text editing</string>
+    <string name="menuHelp">Help</string>
+    <string name="menuAbout">About</string>
+    <string name="textEditApplied">Changes applied!</string>
+    <string name="textEditNotApplied">Cannot apply because of syntax error</string>
+    <string name="textHelp"><u>Keys:</u>
+        \n[–] adds a pause
+        \n[•] adds/removes a dot
+        \n[8va] increases the octave by 1
+        \n[8vb] decreases the octave by 1
+        \n[v++] increases the duration by 2 times
+        \n[v––] decreases the duration by 2 times
+        \n
+        \n<u>Limits:</u>
+        \nValue — from 32 to 1, power of two. (Value X denotes 1/X of a whole note)
+        \nOctave — from 0 to 3.
+        \nTempo — from 30 to 240 beats per minute.
+        \n
+        \n<u>Syntax:</u>
+        \nNote — &lt;value>[.][#]{c|d|e|f|g|a|b}&lt;octave>
+        \nPause — &lt;value>[.]-
+        \n
+        \n- Text editing mode automatically replaces uppercase letters with lowercase letters. Tabs, line breaks, regular and non-breaking spaces, and sequences of such characters are replaced with spaces.
+        \n
+        \n- Melody playing starts after the entered notes are played.</string>
+    <string name="textAbout">&lt;b>%s&lt;/b> v%s
+        &lt;br>
+        &lt;br>This app was created as a replacement for the Nokia composer app. You can create here simple single-voice melodies using text input or the piano keyboard.
+        &lt;br>
+        &lt;br>&lt;u>Developer:&lt;/u> Sribnyak Alexander</string>
+    <string name="confirm">Confirm action</string>
+    <string name="clearAllText">Are you sure you want to clear all?</string>
+    <string name="yes">Yes</string>
+    <string name="menuTranspose">Transpose</string>
+    <string name="dialogTranspose">Transposition</string>
+    <string name="textTranspose">Semitones to transpose by (between %d and %d):</string>
+    <string name="cannotTranspose">The entered value is not in the specified range</string>
+    <string name="tooSlow">The tempo should be at least %d</string>
+    <string name="tooFast">The tempo should be not greater than %d</string>
+</resources>

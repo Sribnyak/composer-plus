@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Composer Plus</string>
+    <string name="btnTempo">Темп = %d</string>
+    <string name="btnPlay">▶</string>
+    <string name="btnStop">■</string>
+    <string name="Backspace">⌫</string>
+    <string name="noteC">C</string>
+    <string name="noteCis">C♯</string>
+    <string name="noteD">D</string>
+    <string name="noteEs">D♯</string>
+    <string name="noteE">E</string>
+    <string name="noteF">F</string>
+    <string name="noteFis">F♯</string>
+    <string name="noteG">G</string>
+    <string name="noteGis">G♯</string>
+    <string name="noteA">A</string>
+    <string name="noteB">A♯</string>
+    <string name="noteH">B</string>
+    <string name="btnRest">—</string>
+    <string name="btnUp">8va</string>
+    <string name="btnDn">8vb</string>
+    <string name="btnPlus">v++</string>
+    <string name="btnMinus">v––</string>
+    <string name="emptyEditText">Введите что-нибудь</string>
+    <string name="btnDot">•</string>
+    <string name="dialogTempo">Темп</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
+    <string name="apply">Применить</string>
+    <string name="maxLen">Это максимальная длина, хватит</string>
+    <string name="menuTextEditing">Текстовое редактирование</string>
+    <string name="menuHelp">Помощь</string>
+    <string name="menuAbout">О приложении</string>
+    <string name="textEditApplied">Изменения сохранены!</string>
+    <string name="textEditNotApplied">Синтаксическая ошибка, изменения не сохранены</string>
+    <string name="textHelp"><u>Клавиши:</u>
+        \n[–] добавляет паузу
+        \n[•] добавляет/убирает точку
+        \n[8va] повышает октаву на 1
+        \n[8vb] понижает октаву на 1
+        \n[v++] увеличивает длительность в 2 раза
+        \n[v––] уменьшает длительность в 2 раза
+        \n
+        \n<u>Ограничения:</u>
+        \nДлительности — от 32 до 1, степени двойки. (Длительность X обозначает 1/X от целой ноты)
+        \nОктавы — от 0 до 3. (0 - малая)
+        \nТемп — от 30 до 240 ударов в минуту.
+        \n
+        \n<u>Синтаксис:</u>
+        \nНота — &lt;длительность>[.][#]{c|d|e|f|g|a|b}&lt;октава>
+        \nПауза — &lt;длительность>[.]-
+        \n
+        \nРежим текстового редактирования автоматически заменяет прописные буквы на строчные, а символы табуляции, переноса строки, обычные и неразрывные пробелы и последовательности таких символов — на пробелы.
+        \n
+        \nВоспроизведение мелодии начинается после воспроизведения введённых нот.</string>
+    <string name="textAbout">&lt;b>%s&lt;/b> v%s
+        &lt;br>
+        &lt;br>Приложение создано в качестве замены синтезатора мелодий Nokia. Вы можете создавать здесь простые одноголосные мелодии с помощью текстового ввода или клавиатуры фортепиано.
+        &lt;br>
+        &lt;br>&lt;u>Разработчик:&lt;/u> Срибняк Александр</string>
+    <string name="confirm">Подтвердите действие</string>
+    <string name="clearAllText">Вы уверены, что хотите всё очистить?</string>
+    <string name="yes">Да</string>
+    <string name="menuTranspose">Транспонировать</string>
+    <string name="dialogTranspose">Транспозиция</string>
+    <string name="textTranspose">Количество полутонов, на которое нужно транспонировать (между %d и %d):</string>
+    <string name="cannotTranspose">Введённое значение не лежит в указанном диапазоне</string>
+    <string name="tooSlow">Темп должен быть хотя бы %d</string>
+    <string name="tooFast">Темп должен не превышать %d</string>
+</resources>

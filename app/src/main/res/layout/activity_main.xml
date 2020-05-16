@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/keyboardPiano"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView">
+
+        <Button
+            android:id="@+id/btnTempo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/btnTempo"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/keyCis"
+            app:layout_constraintEnd_toStartOf="@+id/btnPlay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/btnPlay"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnTempo"
+            app:layout_constraintEnd_toStartOf="@+id/btnBackspace"
+            app:layout_constraintStart_toEndOf="@+id/btnTempo"
+            app:layout_constraintTop_toTopOf="@+id/btnTempo" />
+
+        <Button
+            android:id="@+id/btnBackspace"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/Backspace"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnTempo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnPlay"
+            app:layout_constraintTop_toTopOf="@+id/btnTempo" />
+
+        <Button
+            android:id="@+id/btnUp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/btnUp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnDn"
+            app:layout_constraintEnd_toStartOf="@+id/keyCis"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/keyCis" />
+
+        <Button
+            android:id="@+id/btnDn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/btnDn"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyCis"
+            app:layout_constraintEnd_toEndOf="@+id/btnUp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnUp" />
+
+        <Button
+            android:id="@+id/keyCis"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/blackKey"
+            android:text="@string/noteCis"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/keyC"
+            app:layout_constraintEnd_toStartOf="@+id/keyEs"
+            app:layout_constraintStart_toEndOf="@+id/btnUp"
+            app:layout_constraintTop_toBottomOf="@+id/btnTempo" />
+
+        <Button
+            android:id="@+id/keyEs"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/blackKey"
+            android:text="@string/noteEs"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyCis"
+            app:layout_constraintEnd_toStartOf="@+id/btnRest"
+            app:layout_constraintStart_toEndOf="@+id/keyCis"
+            app:layout_constraintTop_toTopOf="@+id/keyCis" />
+
+        <Button
+            android:id="@+id/btnRest"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/btnRest"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnDot"
+            app:layout_constraintEnd_toStartOf="@+id/keyFis"
+            app:layout_constraintStart_toEndOf="@+id/keyEs"
+            app:layout_constraintTop_toTopOf="@+id/keyCis" />
+
+        <Button
+            android:id="@+id/btnDot"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/btnDot"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyCis"
+            app:layout_constraintEnd_toEndOf="@+id/btnRest"
+            app:layout_constraintStart_toStartOf="@+id/btnRest"
+            app:layout_constraintTop_toBottomOf="@+id/btnRest" />
+
+        <Button
+            android:id="@+id/keyFis"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/blackKey"
+            android:text="@string/noteFis"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyCis"
+            app:layout_constraintEnd_toStartOf="@+id/keyGis"
+            app:layout_constraintStart_toEndOf="@+id/btnRest"
+            app:layout_constraintTop_toTopOf="@+id/keyCis" />
+
+        <Button
+            android:id="@+id/keyGis"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/blackKey"
+            android:text="@string/noteGis"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyCis"
+            app:layout_constraintEnd_toStartOf="@+id/keyB"
+            app:layout_constraintStart_toEndOf="@+id/keyFis"
+            app:layout_constraintTop_toTopOf="@+id/keyCis" />
+
+        <Button
+            android:id="@+id/keyB"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:background="@color/blackKey"
+            android:text="@string/noteB"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyCis"
+            app:layout_constraintEnd_toStartOf="@+id/btnPlus"
+            app:layout_constraintStart_toEndOf="@+id/keyGis"
+            app:layout_constraintTop_toTopOf="@+id/keyCis" />
+
+        <Button
+            android:id="@+id/btnPlus"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/btnPlus"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnMinus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/keyB"
+            app:layout_constraintTop_toTopOf="@+id/keyCis" />
+
+        <Button
+            android:id="@+id/btnMinus"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/btnMinus"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyCis"
+            app:layout_constraintEnd_toEndOf="@+id/btnPlus"
+            app:layout_constraintStart_toStartOf="@+id/btnPlus"
+            app:layout_constraintTop_toBottomOf="@+id/btnPlus" />
+
+        <Button
+            android:id="@+id/keyC"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/noteC"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/keyD"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/keyCis" />
+
+        <Button
+            android:id="@+id/keyD"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/noteD"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/keyE"
+            app:layout_constraintStart_toEndOf="@+id/keyC"
+            app:layout_constraintTop_toTopOf="@+id/keyC" />
+
+        <Button
+            android:id="@+id/keyE"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/noteE"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/keyF"
+            app:layout_constraintStart_toEndOf="@+id/keyD"
+            app:layout_constraintTop_toTopOf="@+id/keyC" />
+
+        <Button
+            android:id="@+id/keyF"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/noteF"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/keyG"
+            app:layout_constraintStart_toEndOf="@+id/keyE"
+            app:layout_constraintTop_toTopOf="@+id/keyC" />
+
+        <Button
+            android:id="@+id/keyG"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/noteG"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/keyA"
+            app:layout_constraintStart_toEndOf="@+id/keyF"
+            app:layout_constraintTop_toTopOf="@+id/keyC" />
+
+        <Button
+            android:id="@+id/keyA"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/noteA"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/keyH"
+            app:layout_constraintStart_toEndOf="@+id/keyG"
+            app:layout_constraintTop_toTopOf="@+id/keyC" />
+
+        <Button
+            android:id="@+id/keyH"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/whiteKey"
+            android:text="@string/noteH"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/keyA"
+            app:layout_constraintTop_toTopOf="@+id/keyC" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/keyboardPiano"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:gravity="start|top"
+                android:hint="@string/emptyEditText"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
