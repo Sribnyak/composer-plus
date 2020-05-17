@@ -50,9 +50,9 @@
         \nNote — &lt;value>[.][#]{c|d|e|f|g|a|b}&lt;octave>
         \nPause — &lt;value>[.]-
         \n
-        \n- Text editing mode automatically replaces uppercase letters with lowercase letters. Tabs, line breaks, regular and non-breaking spaces, and sequences of such characters are replaced with spaces.
+        \nText editing mode automatically replaces uppercase letters with lowercase letters. Tabs, line breaks, regular and non-breaking spaces, and sequences of such characters are replaced with spaces.
         \n
-        \n- Melody playing starts after the entered notes are played.</string>
+        \nMelody playing starts after the entered notes are played.</string>
     <string name="textAbout">&lt;b>%s&lt;/b> v%s
         &lt;br>
         &lt;br>This app was created as a replacement for the Nokia composer app. You can create here simple single-voice melodies using text input or the piano keyboard.

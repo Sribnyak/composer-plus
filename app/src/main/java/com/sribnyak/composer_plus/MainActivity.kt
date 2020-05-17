@@ -12,6 +12,7 @@ import android.text.Html
 import android.text.InputFilter
 import android.text.InputType
 import android.text.method.ScrollingMovementMethod
+// import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,9 +21,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
 import java.util.*
-import kotlin.math.PI
-import kotlin.math.pow
-import kotlin.math.sin
+import kotlin.math.*
 
 const val RATE = 22050
 const val MIN_V = 32
@@ -449,14 +448,14 @@ class Melody {
     fun minPitch(): Int {
         var ans = MAX_OCTAVE * 12 + 11
         for (i in 0 until size)
-            ans = min(ans, src[i]!!.getPitch())
+            ans = min(ans, src[i]!!.pitch)
         return ans
     }
 
     fun maxPitch(): Int {
         var ans = MIN_OCTAVE * 12
         for (i in 0 until size)
-            ans = max(ans, src[i]!!.getPitch())
+            ans = max(ans, src[i]!!.pitch)
         return ans
     }
 
@@ -484,41 +483,41 @@ class Melody {
 
 }
 
+val overtones: Array<Double> = arrayOf(1.0, 0.5, 0.25, 0.125)
+
+fun equalLoudnessContour(f: Double): Double {
+    return 1.9 * (log10(f) - 3.2).pow(2) + 3.5
+}
+
 class Note(
     private val v: Int = 4,
     private val pitchClass: Int = 9,
     private val octave: Int = 1,
     var dot: Boolean = false
 ) {
+    val pitch = octave * 12 + pitchClass
+    private val f = noteFreq4[pitchClass] / 2.0.pow(4 - octave)
+    private val volume = exp(equalLoudnessContour(f)) / 110.0
+
     fun getLen(): Double {
         if (dot)
             return RATE * 60.0 / tempo * 3 / 2 * 4 / v
         return RATE * 60.0 / tempo * 4 / v
     }
 
-    fun getPitch(): Int {
-        return octave * 12 + pitchClass
-    }
-
     fun transposed(delta: Int): Note {
         if (pitchClass == 12)
             return this // is it ok?
-        val pitch = getPitch() + delta
-        return Note(v, pitch % 12, pitch / 12, dot)
+        val newPitch = pitch + delta
+        return Note(v, newPitch % 12, newPitch / 12, dot)
     }
 
     fun waveAt(t: Double): Short {
-        val w = noteFreq4[pitchClass] / 2.0.pow(4 - octave) * 2.0 * PI
-        // TODO right volume correction
-        //val minF = log2(noteFreq4[0] / 16)
-        //val maxF = log2(noteFreq4[11] / 2)
-        //val k = 0.5
-        val volume = 1 - 0.9 * w / 2 / PI / noteFreq4[11]
-        return ((sin(w * t) * Short.MAX_VALUE / 2
-                + sin(2 * w * t) * Short.MAX_VALUE / 4
-                + sin(3 * w * t) * Short.MAX_VALUE / 8
-                + sin(4 * w * t) * Short.MAX_VALUE / 16
-                ) * volume).toShort()
+        val phase = 2.0 * PI * f * t
+        var x = 0.0
+        for (i in overtones.indices)
+            x += overtones[i] * sin((i + 1) * phase)
+        return (x / overtones.sum() * Short.MAX_VALUE * 0.7 * volume).toShort()
     }
 
     override fun toString(): String {
