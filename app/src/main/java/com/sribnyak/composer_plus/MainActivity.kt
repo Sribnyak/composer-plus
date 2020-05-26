@@ -2,11 +2,6 @@ package com.sribnyak.composer_plus
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.media.AudioFormat
-import android.media.AudioManager
-import android.media.AudioRecord
-import android.media.AudioTrack
-import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Html
 import android.text.InputFilter
@@ -21,65 +16,45 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
 import java.util.*
-import kotlin.math.*
 
-const val RATE = 22050
 const val MIN_V = 32
 const val MAX_V = 1
 const val MIN_OCTAVE = 0 // change pitches and transposing to change this
 const val MAX_OCTAVE = 3
-const val DEFAULT_TEXT_SIZE = 18f
-const val DEFAULT_PADDING_SIZE = 16
+
 val pitchClassStr: Array<String> = arrayOf(
     "c", "#c", "d", "#d", "e",
     "f", "#f", "g", "#g", "a", "#a", "b",
     "-"
 )
-val noteFreq4: Array<Double> = arrayOf(
-    4186.0, 4434.9, 4698.6, 4978.0, 5274.0,
-    5587.6, 5919.9, 6271.9, 6644.8, 7040.0, 7458.6, 7902.1,
-    0.0
-)
-val noteKeysId: Array<Int> = arrayOf(
-    R.id.keyC, R.id.keyCis, R.id.keyD, R.id.keyEs, R.id.keyE,
-    R.id.keyF, R.id.keyFis, R.id.keyG, R.id.keyGis, R.id.keyA, R.id.keyB, R.id.keyH,
-    R.id.btnRest
-)
-
-const val fade = (0.1 * RATE).toInt()
-
-var tempo = 120
-var currentOctave = 1
-var currentV = 4
-var melody = Melody()
-var musicPlaying = false
-
-@Suppress("DEPRECATION")
-val audioTrack = AudioTrack(
-    AudioManager.STREAM_MUSIC,
-    RATE,
-    AudioFormat.CHANNEL_OUT_MONO,
-    AudioFormat.ENCODING_PCM_16BIT,
-    AudioRecord.getMinBufferSize(
-        RATE, AudioFormat.CHANNEL_IN_MONO,
-        AudioFormat.ENCODING_PCM_16BIT
-    ),
-    AudioTrack.MODE_STREAM
-)
-lateinit var editText: EditText
 
 class MainActivity : AppCompatActivity() {
+
+    private var currentOctave = 1
+    private var currentV = 4
+    private var melody = Melody()
+
+    private val defaultTextSize = 18f
+    private var defaultPaddingSize = 16
+    private lateinit var editText: EditText
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        defaultPaddingSize = (defaultPaddingSize * resources.displayMetrics.density + 0.5).toInt()
         editText = findViewById(R.id.editText)
         val scrollView: ScrollView = findViewById(R.id.scrollView)
         val btnTempo: Button = findViewById(R.id.btnTempo)
-        btnTempo.text = getString(R.string.btnTempo, tempo)
-        audioTrack.play()
+        btnTempo.text = getString(R.string.btnTempo, Sound.tempo)
+        Player.init()
+
+        val noteKeysId: Array<Int> = arrayOf(
+            R.id.keyC, R.id.keyCis, R.id.keyD, R.id.keyEs, R.id.keyE,
+            R.id.keyF, R.id.keyFis, R.id.keyG, R.id.keyGis, R.id.keyA, R.id.keyB, R.id.keyH,
+            R.id.btnRest
+        )
 
         for (pitchClass in 0..12) {
             findViewById<Button>(noteKeysId[pitchClass]).setOnClickListener {
@@ -92,8 +67,8 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         editText.setText(note.toString())
                     }
-                    if (!musicPlaying)
-                        PlaySoundTask().execute(toSound(arrayOf(note)))
+                    if (!Player.musicPlaying)
+                        Player.play(note)
                 } else {
                     Toast.makeText(
                         applicationContext,
@@ -110,14 +85,15 @@ class MainActivity : AppCompatActivity() {
                 melody.pop()
             }
         }
+
         findViewById<Button>(R.id.btnBackspace).setOnLongClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(R.string.confirm)
             val txt = TextView(this)
             txt.setTextColor(editText.currentTextColor)
             txt.setText(R.string.clearAllText)
-            txt.textSize = DEFAULT_TEXT_SIZE
-            txt.setPadding(dp2px(DEFAULT_PADDING_SIZE, resources.displayMetrics.density))
+            txt.textSize = defaultTextSize
+            txt.setPadding(defaultPaddingSize)
             txt.movementMethod = ScrollingMovementMethod()
             builder.setView(txt)
             builder.setPositiveButton(R.string.yes) { _, _ ->
@@ -128,6 +104,7 @@ class MainActivity : AppCompatActivity() {
             builder.show()
             return@setOnLongClickListener true
         }
+
         findViewById<Button>(R.id.btnPlus).setOnClickListener {
             if (currentV != MAX_V)
                 currentV /= 2
@@ -150,14 +127,14 @@ class MainActivity : AppCompatActivity() {
                 note.dot = !note.dot
                 editText.setText(editText.text.toString().dropLastWhile { it != ' ' } + note)
                 melody.add(note)
-                if (!musicPlaying)
-                    PlaySoundTask().execute(toSound(arrayOf(note)))
+                if (!Player.musicPlaying)
+                    Player.play(note)
             }
         }
         findViewById<Button>(R.id.btnPlay).setOnClickListener {
-            if (!musicPlaying) {
-                musicPlaying = true
-                PlaySoundTask().execute(toSound(melody.toArray()))
+            if (!Player.musicPlaying) {
+                Player.musicPlaying = true
+                Player.play(melody.toArray())
             } // TODO: make stoppable
         }
         findViewById<Button>(R.id.btnTempo).setOnClickListener {
@@ -168,11 +145,11 @@ class MainActivity : AppCompatActivity() {
 
             val textEdit = EditText(this)
             textEdit.setBackgroundColor(Color.TRANSPARENT)
-            textEdit.setPadding(dp2px(DEFAULT_PADDING_SIZE, resources.displayMetrics.density))
+            textEdit.setPadding(defaultPaddingSize)
             textEdit.textAlignment = EditText.TEXT_ALIGNMENT_CENTER
             textEdit.inputType = InputType.TYPE_CLASS_NUMBER
             textEdit.filters = textEdit.filters.plus(InputFilter.LengthFilter(3))
-            textEdit.setText(tempo.toString())
+            textEdit.setText(Sound.tempo.toString())
             textEdit.setSelection(textEdit.text.length)
             builder.setView(textEdit)
 
@@ -183,8 +160,8 @@ class MainActivity : AppCompatActivity() {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val value = textEdit.text.toString().toInt()
                 if (value in minValue..maxValue) {
-                    tempo = textEdit.text.toString().toInt()
-                    btnTempo.text = getString(R.string.btnTempo, tempo)
+                    Sound.tempo = textEdit.text.toString().toInt()
+                    btnTempo.text = getString(R.string.btnTempo, Sound.tempo)
                     dialog.dismiss()
                 } else if (value < minValue) {
                     textEdit.setText(minValue.toString())
@@ -218,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                 builder.setTitle(R.string.menuTextEditing)
                 val textEdit = EditText(this)
                 textEdit.setBackgroundColor(Color.TRANSPARENT)
-                textEdit.setPadding(dp2px(DEFAULT_PADDING_SIZE, resources.displayMetrics.density))
+                textEdit.setPadding(defaultPaddingSize)
                 textEdit.setHint(R.string.emptyEditText)
                 textEdit.text = editText.text
                 textEdit.setSelection(textEdit.text.length)
@@ -233,10 +210,9 @@ class MainActivity : AppCompatActivity() {
                         .split(' ', '\n', '\t', '\u00A0')
                         .filter(String::isNotEmpty)
                         .joinToString(" ")
-                    val parser = Parser()
-                    val good = parser.parse(newText)
-                    if (good) {
-                        melody = parser.newMelody
+                    val parserResult = Parser.parse(newText)
+                    if (parserResult.newMelody != null) {
+                        melody = parserResult.newMelody
                         editText.setText(newText)
                         Toast.makeText(
                             applicationContext,
@@ -245,7 +221,7 @@ class MainActivity : AppCompatActivity() {
                         dialog.dismiss()
                     } else {
                         textEdit.setText(newText)
-                        textEdit.setSelection(parser.i)
+                        textEdit.setSelection(parserResult.selection)
                         Toast.makeText(
                             applicationContext,
                             R.string.textEditNotApplied, Toast.LENGTH_SHORT
@@ -263,7 +239,7 @@ class MainActivity : AppCompatActivity() {
 
                 val textEdit = EditText(this)
                 textEdit.setBackgroundColor(Color.TRANSPARENT)
-                textEdit.setPadding(dp2px(DEFAULT_PADDING_SIZE, resources.displayMetrics.density))
+                textEdit.setPadding(defaultPaddingSize)
                 textEdit.textAlignment = EditText.TEXT_ALIGNMENT_CENTER
                 textEdit.inputType =
                     InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
@@ -302,8 +278,8 @@ class MainActivity : AppCompatActivity() {
                 val txt = TextView(this)
                 txt.setTextColor(editText.currentTextColor)
                 txt.setText(R.string.textHelp)
-                txt.textSize = DEFAULT_TEXT_SIZE
-                txt.setPadding(dp2px(DEFAULT_PADDING_SIZE, resources.displayMetrics.density))
+                txt.textSize = defaultTextSize
+                txt.setPadding(defaultPaddingSize)
                 txt.movementMethod = ScrollingMovementMethod()
                 builder.setView(txt)
                 builder.show()
@@ -313,8 +289,8 @@ class MainActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this)
                 val txt = TextView(this)
                 txt.setTextColor(editText.currentTextColor)
-                txt.textSize = DEFAULT_TEXT_SIZE
-                txt.setPadding(dp2px(DEFAULT_PADDING_SIZE, resources.displayMetrics.density))
+                txt.textSize = defaultTextSize
+                txt.setPadding(defaultPaddingSize)
                 @Suppress("DEPRECATION")
                 txt.text = Html.fromHtml(
                     getString(
@@ -330,85 +306,6 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-}
-
-class Parser {
-    val newMelody = Melody()
-    var i: Int = 0
-    fun parse(text: String): Boolean {
-        var end = 0
-        while (i < text.length) {
-            while (end < text.length && text[end] != ' ')
-                end++
-            var v = 0
-            while (i < end && text[i] in '0'..'9')
-                v = 10 * v + (text[i++].toInt() - '0'.toInt())
-            fun Int.isNotPow2(): Boolean {
-                var x = this
-                while (x != 1) {
-                    if (x % 2 == 1)
-                        return true
-                    x /= 2
-                }
-                return false
-            }
-            if (v !in MAX_V..MIN_V || v.isNotPow2() || i >= end)
-                return false
-            val dot = text[i] == '.'
-            if (dot)
-                i++
-            var pitchClass = String()
-            while (i < end && text[i] !in '0'..'9')
-                pitchClass += text[i++]
-            if (pitchClass !in pitchClassStr)
-                return false
-            var octave = MIN_OCTAVE
-            if (pitchClass != "-") {
-                if (i >= end)
-                    return false
-                octave = 0
-                while (i < end && text[i] in '0'..'9')
-                    octave = 10 * octave + (text[i++].toInt() - '0'.toInt())
-                if (octave !in MIN_OCTAVE..MAX_OCTAVE)
-                    return false
-            }
-            if (i < end)
-                return false
-            newMelody.add(Note(v, pitchClassStr.indexOf(pitchClass), octave, dot))
-            end = ++i
-        }
-        return true
-    }
-}
-
-@Suppress("SameParameterValue")
-private fun dp2px(x: Int, density: Float): Int {
-    return (x * density + 0.5).toInt()
-}
-
-private fun toSound(notes: Array<Note>): ShortArray {
-    var arrSize = 0
-    for (note in notes)
-        arrSize += note.getLen().toInt()
-    val ans = Array<Short>(arrSize) { 0 }
-    var len = 0
-
-    for (note in notes) {
-        for (i in 0 until note.getLen().toInt())
-            ans[len++] = note.waveAt(i.toDouble() / RATE)
-        for (i in 1 until min(fade, len))
-            ans[len - i] = (ans[len - i] * i / fade.toDouble()).toShort()
-    }
-    return ans.toShortArray()
-}
-
-private class PlaySoundTask : AsyncTask<ShortArray, Int, Int>() {
-    override fun doInBackground(vararg sound: ShortArray): Int {
-        audioTrack.write(sound[0], 0, sound[0].size)
-        audioTrack.play()
-        musicPlaying = false
-        return 0
-    }
 }
 
 fun min(a: Int, b: Int): Int {
@@ -483,41 +380,19 @@ class Melody {
 
 }
 
-val overtones: Array<Double> = arrayOf(1.0, 0.5, 0.25, 0.125)
-
-fun equalLoudnessContour(f: Double): Double {
-    return 1.9 * (log10(f) - 3.2).pow(2) + 3.5
-}
-
 class Note(
-    private val v: Int = 4,
-    private val pitchClass: Int = 9,
-    private val octave: Int = 1,
+    val v: Int = 4,
+    val pitchClass: Int = 9,
+    val octave: Int = 1,
     var dot: Boolean = false
 ) {
     val pitch = octave * 12 + pitchClass
-    private val f = noteFreq4[pitchClass] / 2.0.pow(4 - octave)
-    private val volume = exp(equalLoudnessContour(f)) / 110.0
-
-    fun getLen(): Double {
-        if (dot)
-            return RATE * 60.0 / tempo * 3 / 2 * 4 / v
-        return RATE * 60.0 / tempo * 4 / v
-    }
 
     fun transposed(delta: Int): Note {
         if (pitchClass == 12)
             return this // is it ok?
         val newPitch = pitch + delta
         return Note(v, newPitch % 12, newPitch / 12, dot)
-    }
-
-    fun waveAt(t: Double): Short {
-        val phase = 2.0 * PI * f * t
-        var x = 0.0
-        for (i in overtones.indices)
-            x += overtones[i] * sin((i + 1) * phase)
-        return (x / overtones.sum() * Short.MAX_VALUE * 0.7 * volume).toShort()
     }
 
     override fun toString(): String {
