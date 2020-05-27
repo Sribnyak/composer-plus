@@ -37,8 +37,13 @@ object Player {
         }
     }
 
-    fun play(notes: Array<Note>) {
+    private fun play(notes: Array<Note>) {
         PlaySoundTask().execute(Sound.toSound(notes))
+    }
+
+    fun play(melody: Melody) {
+        musicPlaying = true
+        play(melody.toArray())
     }
 
     fun play(note: Note) {

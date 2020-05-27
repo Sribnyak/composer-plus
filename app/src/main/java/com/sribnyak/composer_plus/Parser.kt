@@ -1,7 +1,17 @@
 package com.sribnyak.composer_plus
 
+import java.util.*
+
 object Parser {
     data class Result (val newMelody: Melody?, val selection: Int)
+
+    fun cleanText(text: String): String {
+        return text.toLowerCase(Locale.ENGLISH)
+            .split(' ', '\n', '\t', '\u00A0')
+            .filter(String::isNotEmpty)
+            .joinToString(" ")
+    }
+
     fun parse(text: String): Result {
         val newMelody = Melody()
         var i = 0

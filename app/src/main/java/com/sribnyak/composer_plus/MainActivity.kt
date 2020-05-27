@@ -1,6 +1,7 @@
 package com.sribnyak.composer_plus
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
@@ -15,7 +16,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
-import java.util.*
+import kotlin.math.*
 
 const val MIN_V = 32
 const val MAX_V = 1
@@ -38,6 +39,30 @@ class MainActivity : AppCompatActivity() {
     private var defaultPaddingSize = 16
     private lateinit var editText: EditText
 
+    private fun defaultTextView(context: Context): TextView {
+        val textView = TextView(context)
+        textView.setPadding(defaultPaddingSize)
+        textView.setTextColor(editText.currentTextColor)
+        textView.textSize = defaultTextSize
+        textView.movementMethod = ScrollingMovementMethod()
+        return textView
+    }
+
+    private fun editTextNumberPicker(context: Context, minValue: Int, maxValue: Int, init: Int): EditText {
+        val inputType: Int = if (minValue >= 0) InputType.TYPE_CLASS_NUMBER
+            else InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+        val maxLen: Int = max(minValue.toString().length, maxValue.toString().length)
+        val textEdit = EditText(context)
+        textEdit.setBackgroundColor(Color.TRANSPARENT)
+        textEdit.setPadding(defaultPaddingSize)
+        textEdit.textAlignment = EditText.TEXT_ALIGNMENT_CENTER
+        textEdit.inputType = inputType
+        textEdit.filters = textEdit.filters.plus(InputFilter.LengthFilter(maxLen))
+        textEdit.setText(init.toString())
+        textEdit.setSelection(init.toString().length)
+        return textEdit
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +70,6 @@ class MainActivity : AppCompatActivity() {
 
         defaultPaddingSize = (defaultPaddingSize * resources.displayMetrics.density + 0.5).toInt()
         editText = findViewById(R.id.editText)
-        val scrollView: ScrollView = findViewById(R.id.scrollView)
         val btnTempo: Button = findViewById(R.id.btnTempo)
         btnTempo.text = getString(R.string.btnTempo, Sound.tempo)
         Player.init()
@@ -63,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     val text = editText.text.toString()
                     if (text.isNotEmpty()) {
                         editText.setText("$text $note")
-                        scrollView.fullScroll(View.FOCUS_DOWN)
+                        findViewById<ScrollView>(R.id.scrollView).fullScroll(View.FOCUS_DOWN)
                     } else {
                         editText.setText(note.toString())
                     }
@@ -89,12 +113,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnBackspace).setOnLongClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(R.string.confirm)
-            val txt = TextView(this)
-            txt.setTextColor(editText.currentTextColor)
+            val txt = defaultTextView(this)
             txt.setText(R.string.clearAllText)
-            txt.textSize = defaultTextSize
-            txt.setPadding(defaultPaddingSize)
-            txt.movementMethod = ScrollingMovementMethod()
             builder.setView(txt)
             builder.setPositiveButton(R.string.yes) { _, _ ->
                 editText.setText("")
@@ -132,25 +152,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
         findViewById<Button>(R.id.btnPlay).setOnClickListener {
-            if (!Player.musicPlaying) {
-                Player.musicPlaying = true
-                Player.play(melody.toArray())
-            } // TODO: make stoppable
+            if (!Player.musicPlaying)
+                Player.play(melody) // TODO: make stoppable
         }
-        findViewById<Button>(R.id.btnTempo).setOnClickListener {
+        btnTempo.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(R.string.dialogTempo)
             val minValue = 30
             val maxValue = 240
 
-            val textEdit = EditText(this)
-            textEdit.setBackgroundColor(Color.TRANSPARENT)
-            textEdit.setPadding(defaultPaddingSize)
-            textEdit.textAlignment = EditText.TEXT_ALIGNMENT_CENTER
-            textEdit.inputType = InputType.TYPE_CLASS_NUMBER
-            textEdit.filters = textEdit.filters.plus(InputFilter.LengthFilter(3))
-            textEdit.setText(Sound.tempo.toString())
-            textEdit.setSelection(textEdit.text.length)
+            val textEdit = editTextNumberPicker(this,
+                minValue, maxValue, Sound.tempo)
             builder.setView(textEdit)
 
             builder.setNegativeButton(R.string.cancel, null)
@@ -163,20 +175,21 @@ class MainActivity : AppCompatActivity() {
                     Sound.tempo = textEdit.text.toString().toInt()
                     btnTempo.text = getString(R.string.btnTempo, Sound.tempo)
                     dialog.dismiss()
-                } else if (value < minValue) {
-                    textEdit.setText(minValue.toString())
-                    textEdit.setSelection(textEdit.text.length)
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.tooSlow, minValue), Toast.LENGTH_SHORT
-                    ).show()
                 } else {
-                    textEdit.setText(maxValue.toString())
+                    if (value < minValue) {
+                        Toast.makeText(
+                            applicationContext,
+                            getString(R.string.tooSlow, minValue), Toast.LENGTH_SHORT
+                        ).show()
+                        textEdit.setText(minValue.toString())
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            getString(R.string.tooFast, maxValue), Toast.LENGTH_SHORT
+                        ).show()
+                        textEdit.setText(maxValue.toString())
+                    }
                     textEdit.setSelection(textEdit.text.length)
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.tooFast, maxValue), Toast.LENGTH_SHORT
-                    ).show()
                 }
             }
         }
@@ -205,11 +218,7 @@ class MainActivity : AppCompatActivity() {
                 val dialog = builder.create()
                 dialog.show()
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                    val newText = textEdit.text.toString()
-                        .toLowerCase(Locale.ENGLISH)
-                        .split(' ', '\n', '\t', '\u00A0')
-                        .filter(String::isNotEmpty)
-                        .joinToString(" ")
+                    val newText = Parser.cleanText(textEdit.text.toString())
                     val parserResult = Parser.parse(newText)
                     if (parserResult.newMelody != null) {
                         melody = parserResult.newMelody
@@ -236,18 +245,9 @@ class MainActivity : AppCompatActivity() {
                 val minValue = MIN_OCTAVE * 12 - melody.minPitch()
                 val maxValue = MAX_OCTAVE * 12 + 11 - melody.maxPitch()
                 builder.setMessage(getString(R.string.textTranspose, minValue, maxValue))
-
-                val textEdit = EditText(this)
-                textEdit.setBackgroundColor(Color.TRANSPARENT)
-                textEdit.setPadding(defaultPaddingSize)
-                textEdit.textAlignment = EditText.TEXT_ALIGNMENT_CENTER
-                textEdit.inputType =
-                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-                textEdit.filters = textEdit.filters.plus(InputFilter.LengthFilter(3))
-                textEdit.setText("0")
-                textEdit.setSelection(1)
+                val textEdit = editTextNumberPicker(this,
+                    minValue, maxValue, 0)
                 builder.setView(textEdit)
-
                 builder.setNegativeButton(R.string.cancel, null)
                 builder.setPositiveButton(R.string.apply, null)
                 val dialog = builder.create()
@@ -275,22 +275,15 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.menuHelp -> {
                 val builder = AlertDialog.Builder(this)
-                val txt = TextView(this)
-                txt.setTextColor(editText.currentTextColor)
+                val txt = defaultTextView(this)
                 txt.setText(R.string.textHelp)
-                txt.textSize = defaultTextSize
-                txt.setPadding(defaultPaddingSize)
-                txt.movementMethod = ScrollingMovementMethod()
                 builder.setView(txt)
                 builder.show()
                 return true
             }
             R.id.menuAbout -> {
                 val builder = AlertDialog.Builder(this)
-                val txt = TextView(this)
-                txt.setTextColor(editText.currentTextColor)
-                txt.textSize = defaultTextSize
-                txt.setPadding(defaultPaddingSize)
+                val txt = defaultTextView(this)
                 @Suppress("DEPRECATION")
                 txt.text = Html.fromHtml(
                     getString(
@@ -306,18 +299,6 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-}
-
-fun min(a: Int, b: Int): Int {
-    if (a < b)
-        return a
-    return b
-}
-
-fun max(a: Int, b: Int): Int {
-    if (a > b)
-        return a
-    return b
 }
 
 class Melody {
