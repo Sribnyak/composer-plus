@@ -3,7 +3,11 @@ package com.sribnyak.composer_plus
 import java.util.*
 
 object Parser {
-    data class Result (val newMelody: Melody?, val selection: Int)
+    private const val SUCCESS = 0
+    const val TOO_LONG = 1
+    const val SYNTAX_ERROR = 2
+
+    data class Result (val newMelody: Melody?, val selection: Int, val code: Int = SYNTAX_ERROR)
 
     fun cleanText(text: String): String {
         return text.toLowerCase(Locale.ENGLISH)
@@ -17,6 +21,8 @@ object Parser {
         var i = 0
         var end = 0
         while (i < text.length) {
+            if (newMelody.isFull())
+                return Result(newMelody, i, TOO_LONG)
             while (end < text.length && text[end] != ' ')
                 end++
             var v = 0
@@ -65,6 +71,6 @@ object Parser {
             )
             end = ++i
         }
-        return Result(newMelody, i)
+        return Result(newMelody, i, SUCCESS)
     }
 }

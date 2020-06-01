@@ -33,6 +33,16 @@
     <string name="menuAbout">About</string>
     <string name="textEditApplied">Changes applied!</string>
     <string name="textEditNotApplied">Cannot apply because of syntax error</string>
+    <string name="textEditTooLong">The melody is too long so it was cropped</string>
+    <string name="confirm">Confirm action</string>
+    <string name="clearAllText">Are you sure you want to clear all?</string>
+    <string name="yes">Yes</string>
+    <string name="menuTranspose">Transpose</string>
+    <string name="dialogTranspose">Transposition</string>
+    <string name="textTranspose">Semitones to transpose by (between %d and %d):</string>
+    <string name="cannotTranspose">The entered value is not in the specified range</string>
+    <string name="tooSlow">The tempo should be at least %d</string>
+    <string name="tooFast">The tempo should be not greater than %d</string>
     <string name="textHelp"><u>Keys:</u>
         \n[–] adds a pause
         \n[•] adds/removes a dot
@@ -58,13 +68,4 @@
         &lt;br>This app was created as a replacement for the Nokia composer app. You can create here simple single-voice melodies using text input or the piano keyboard.
         &lt;br>
         &lt;br>&lt;u>Developer:&lt;/u> Sribnyak Alexander</string>
-    <string name="confirm">Confirm action</string>
-    <string name="clearAllText">Are you sure you want to clear all?</string>
-    <string name="yes">Yes</string>
-    <string name="menuTranspose">Transpose</string>
-    <string name="dialogTranspose">Transposition</string>
-    <string name="textTranspose">Semitones to transpose by (between %d and %d):</string>
-    <string name="cannotTranspose">The entered value is not in the specified range</string>
-    <string name="tooSlow">The tempo should be at least %d</string>
-    <string name="tooFast">The tempo should be not greater than %d</string>
 </resources>

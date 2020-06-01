@@ -20,7 +20,7 @@ import kotlin.math.*
 
 const val MIN_V = 32
 const val MAX_V = 1
-const val MIN_OCTAVE = 0 // change pitches and transposing to change this
+const val MIN_OCTAVE = 0 // change pitches and transposition to change this
 const val MAX_OCTAVE = 3
 
 val pitchClassStr: Array<String> = arrayOf(
@@ -63,6 +63,10 @@ class MainActivity : AppCompatActivity() {
         return textEdit
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,10 +98,7 @@ class MainActivity : AppCompatActivity() {
                     if (!Player.musicPlaying)
                         Player.play(note)
                 } else {
-                    Toast.makeText(
-                        applicationContext,
-                        R.string.maxLen, Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(getString(R.string.maxLen))
                 }
             }
         }
@@ -177,16 +178,10 @@ class MainActivity : AppCompatActivity() {
                     dialog.dismiss()
                 } else {
                     if (value < minValue) {
-                        Toast.makeText(
-                            applicationContext,
-                            getString(R.string.tooSlow, minValue), Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(getString(R.string.tooSlow, minValue))
                         textEdit.setText(minValue.toString())
                     } else {
-                        Toast.makeText(
-                            applicationContext,
-                            getString(R.string.tooFast, maxValue), Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(getString(R.string.tooFast, maxValue))
                         textEdit.setText(maxValue.toString())
                     }
                     textEdit.setSelection(textEdit.text.length)
@@ -222,19 +217,18 @@ class MainActivity : AppCompatActivity() {
                     val parserResult = Parser.parse(newText)
                     if (parserResult.newMelody != null) {
                         melody = parserResult.newMelody
-                        editText.setText(newText)
-                        Toast.makeText(
-                            applicationContext,
-                            R.string.textEditApplied, Toast.LENGTH_SHORT
-                        ).show()
+                        if (parserResult.code == Parser.TOO_LONG) {
+                            editText.setText(parserResult.newMelody.toString())
+                            showToast(getString(R.string.textEditTooLong))
+                        } else {
+                            editText.setText(newText)
+                            showToast(getString(R.string.textEditApplied))
+                        }
                         dialog.dismiss()
                     } else {
                         textEdit.setText(newText)
                         textEdit.setSelection(parserResult.selection)
-                        Toast.makeText(
-                            applicationContext,
-                            R.string.textEditNotApplied, Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(getString(R.string.textEditNotApplied))
                     }
                 }
                 return true
@@ -257,18 +251,12 @@ class MainActivity : AppCompatActivity() {
                     if (value in minValue..maxValue) {
                         melody.transpose(textEdit.text.toString().toInt())
                         editText.setText(melody.toString())
-                        Toast.makeText(
-                            applicationContext,
-                            R.string.textEditApplied, Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(getString(R.string.textEditApplied))
                         dialog.dismiss()
                     } else {
                         textEdit.setText(if (value < minValue) "$minValue" else "$maxValue")
                         textEdit.setSelection(textEdit.text.length)
-                        Toast.makeText(
-                            applicationContext,
-                            R.string.cannotTranspose, Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(getString(R.string.cannotTranspose))
                     }
                 }
                 return true
@@ -307,15 +295,23 @@ class Melody {
     private var size = 0
     private val src: Array<Note?> = arrayOfNulls(maxSize)
 
+    private fun isEmpty(): Boolean {
+        return size == 0
+    }
+
+    fun isFull(): Boolean {
+        return size == maxSize
+    }
+
     fun add(note: Note): Boolean {
-        if (size == maxSize)
+        if (isFull())
             return false
         src[size++] = note
         return true
     }
 
     fun pop(): Note? {
-        if (size == 0)
+        if (isEmpty())
             return null
         size--
         val note = src[size]
@@ -325,14 +321,14 @@ class Melody {
 
     fun minPitch(): Int {
         var ans = MAX_OCTAVE * 12 + 11
-        for (i in 0 until size)
+        for (i in 0 until size) if (src[i]!!.pitchClass != 12)
             ans = min(ans, src[i]!!.pitch)
         return ans
     }
 
     fun maxPitch(): Int {
         var ans = MIN_OCTAVE * 12
-        for (i in 0 until size)
+        for (i in 0 until size) if (src[i]!!.pitchClass != 12)
             ans = max(ans, src[i]!!.pitch)
         return ans
     }

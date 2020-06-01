@@ -34,6 +34,7 @@
     <string name="menuAbout">О приложении</string>
     <string name="textEditApplied">Изменения сохранены!</string>
     <string name="textEditNotApplied">Синтаксическая ошибка, изменения не сохранены</string>
+    <string name="textEditTooLong">Эта мелодия слишком длинная, пришлось её обрезать</string>
     <string name="textHelp"><u>Клавиши:</u>
         \n[–] добавляет паузу
         \n[•] добавляет/убирает точку
