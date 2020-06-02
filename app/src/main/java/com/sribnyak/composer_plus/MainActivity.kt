@@ -157,15 +157,14 @@ class MainActivity : AppCompatActivity() {
                 Player.play(melody) // TODO: make stoppable
         }
         btnTempo.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle(R.string.dialogTempo)
             val minValue = 30
             val maxValue = 240
-
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(R.string.dialogTempo)
+            builder.setMessage(getString(R.string.textTempo, minValue, maxValue))
             val textEdit = editTextNumberPicker(this,
                 minValue, maxValue, Sound.tempo)
             builder.setView(textEdit)
-
             builder.setNegativeButton(R.string.cancel, null)
             builder.setPositiveButton(R.string.ok, null)
             val dialog = builder.create()
@@ -173,18 +172,13 @@ class MainActivity : AppCompatActivity() {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val value = textEdit.text.toString().toInt()
                 if (value in minValue..maxValue) {
-                    Sound.tempo = textEdit.text.toString().toInt()
+                    Sound.tempo = value
                     btnTempo.text = getString(R.string.btnTempo, Sound.tempo)
                     dialog.dismiss()
                 } else {
-                    if (value < minValue) {
-                        showToast(getString(R.string.tooSlow, minValue))
-                        textEdit.setText(minValue.toString())
-                    } else {
-                        showToast(getString(R.string.tooFast, maxValue))
-                        textEdit.setText(maxValue.toString())
-                    }
+                    textEdit.setText(if (value < minValue) "$minValue" else "$maxValue")
                     textEdit.setSelection(textEdit.text.length)
+                    showToast(getString(R.string.valueOutOfRange))
                 }
             }
         }
@@ -234,10 +228,10 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.menuTranspose -> {
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle(R.string.dialogTranspose)
                 val minValue = MIN_OCTAVE * 12 - melody.minPitch()
                 val maxValue = MAX_OCTAVE * 12 + 11 - melody.maxPitch()
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle(R.string.dialogTranspose)
                 builder.setMessage(getString(R.string.textTranspose, minValue, maxValue))
                 val textEdit = editTextNumberPicker(this,
                     minValue, maxValue, 0)
@@ -249,14 +243,14 @@ class MainActivity : AppCompatActivity() {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                     val value = textEdit.text.toString().toInt()
                     if (value in minValue..maxValue) {
-                        melody.transpose(textEdit.text.toString().toInt())
+                        melody.transpose(value)
                         editText.setText(melody.toString())
                         showToast(getString(R.string.textEditApplied))
                         dialog.dismiss()
                     } else {
                         textEdit.setText(if (value < minValue) "$minValue" else "$maxValue")
                         textEdit.setSelection(textEdit.text.length)
-                        showToast(getString(R.string.cannotTranspose))
+                        showToast(getString(R.string.valueOutOfRange))
                     }
                 }
                 return true

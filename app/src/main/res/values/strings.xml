@@ -24,6 +24,7 @@
     <string name="emptyEditText">Enter something</string>
     <string name="btnDot">•</string>
     <string name="dialogTempo">Tempo</string>
+    <string name="textTempo">New tempo in BPM (between %d and %d):</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>
@@ -40,9 +41,7 @@
     <string name="menuTranspose">Transpose</string>
     <string name="dialogTranspose">Transposition</string>
     <string name="textTranspose">Semitones to transpose by (between %d and %d):</string>
-    <string name="cannotTranspose">The entered value is not in the specified range</string>
-    <string name="tooSlow">The tempo should be at least %d</string>
-    <string name="tooFast">The tempo should be not greater than %d</string>
+    <string name="valueOutOfRange">The entered value is not in the specified range</string>
     <string name="textHelp"><u>Keys:</u>
         \n[–] adds a pause
         \n[•] adds/removes a dot
