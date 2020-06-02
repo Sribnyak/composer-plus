@@ -29,7 +29,9 @@
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>
     <string name="maxLen">This is the maximum length, stop please</string>
+    <string name="waitToPlay">You can play the melody only after the entered notes are played</string>
     <string name="menuTextEditing">Text editing</string>
+    <string name="menuShareMelody">Share the melody</string>
     <string name="menuHelp">Help</string>
     <string name="menuAbout">About</string>
     <string name="textEditApplied">Changes applied!</string>
@@ -59,9 +61,7 @@
         \nNote — &lt;value>[.][#]{c|d|e|f|g|a|b}&lt;octave>
         \nPause — &lt;value>[.]-
         \n
-        \nText editing mode automatically replaces uppercase letters with lowercase letters. Tabs, line breaks, regular and non-breaking spaces, and sequences of such characters are replaced with spaces.
-        \n
-        \nMelody playing starts after the entered notes are played.</string>
+        \nText editing mode automatically replaces uppercase letters with lowercase letters. Tabs, line breaks, regular and non-breaking spaces, and sequences of such characters are replaced with spaces.</string>
     <string name="textAbout">&lt;b>%s&lt;/b> v%s
         &lt;br>
         &lt;br>This app was created as a replacement for the Nokia composer app. You can create here simple single-voice melodies using text input or the piano keyboard.

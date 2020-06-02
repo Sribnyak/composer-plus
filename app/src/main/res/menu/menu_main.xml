@@ -11,13 +11,17 @@
         android:orderInCategory="101"
         android:title="@string/menuTranspose" />
     <item
-        android:id="@+id/menuHelp"
+        android:id="@+id/menuShareMelody"
         android:orderInCategory="102"
+        android:title="@string/menuShareMelody" />
+    <item
+        android:id="@+id/menuHelp"
+        android:orderInCategory="103"
         android:title="@string/menuHelp"
         app:showAsAction="never" />
     <item
         android:id="@+id/menuAbout"
-        android:orderInCategory="103"
+        android:orderInCategory="104"
         android:title="@string/menuAbout"
         app:showAsAction="never" />
 </menu>

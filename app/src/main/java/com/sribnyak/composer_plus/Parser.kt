@@ -3,7 +3,7 @@ package com.sribnyak.composer_plus
 import java.util.*
 
 object Parser {
-    private const val SUCCESS = 0
+    const val SUCCESS = 0
     const val TOO_LONG = 1
     const val SYNTAX_ERROR = 2
 

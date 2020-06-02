@@ -2,13 +2,13 @@ package com.sribnyak.composer_plus
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.text.InputFilter
 import android.text.InputType
 import android.text.method.ScrollingMovementMethod
-// import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,7 +16,8 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
-import kotlin.math.*
+import kotlin.math.max
+import kotlin.math.min
 
 const val MIN_V = 32
 const val MAX_V = 1
@@ -28,6 +29,10 @@ val pitchClassStr: Array<String> = arrayOf(
     "f", "#f", "g", "#g", "a", "#a", "b",
     "-"
 )
+
+lateinit var btnPlay: Button
+fun btnPlayToPlay() { btnPlay.setText(R.string.btnPlay) }
+fun btnPlayToStop() { btnPlay.setText(R.string.btnStop) }
 
 class MainActivity : AppCompatActivity() {
 
@@ -73,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         defaultPaddingSize = (defaultPaddingSize * resources.displayMetrics.density + 0.5).toInt()
+        btnPlay = findViewById(R.id.btnPlay)
         editText = findViewById(R.id.editText)
         val btnTempo: Button = findViewById(R.id.btnTempo)
         btnTempo.text = getString(R.string.btnTempo, Sound.tempo)
@@ -95,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         editText.setText(note.toString())
                     }
-                    if (!Player.musicPlaying)
+                    if (Player.state != Player.MUSIC_PLAYING)
                         Player.play(note)
                 } else {
                     showToast(getString(R.string.maxLen))
@@ -148,13 +154,17 @@ class MainActivity : AppCompatActivity() {
                 note.dot = !note.dot
                 editText.setText(editText.text.toString().dropLastWhile { it != ' ' } + note)
                 melody.add(note)
-                if (!Player.musicPlaying)
+                if (Player.state != Player.MUSIC_PLAYING)
                     Player.play(note)
             }
         }
-        findViewById<Button>(R.id.btnPlay).setOnClickListener {
-            if (!Player.musicPlaying)
-                Player.play(melody) // TODO: make stoppable
+        btnPlay.setOnClickListener {
+            if (Player.state == Player.NOT_PLAYING)
+                Player.play(melody)
+            else if (Player.state == Player.MUSIC_PLAYING)
+                Player.stop()
+            else
+                showToast(getString(R.string.waitToPlay))
         }
         btnTempo.setOnClickListener {
             val minValue = 30
@@ -253,6 +263,16 @@ class MainActivity : AppCompatActivity() {
                         showToast(getString(R.string.valueOutOfRange))
                     }
                 }
+                return true
+            }
+            R.id.menuShareMelody -> {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, SaveAndShare.makeText(editText.text.toString()))
+                    type = "text/plain"
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
                 return true
             }
             R.id.menuHelp -> {

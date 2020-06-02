@@ -8,7 +8,13 @@ import android.os.AsyncTask
 
 object Player {
     const val RATE = 22050
-    var musicPlaying = false
+
+    const val NOT_PLAYING = 0
+    const val NOTE_PLAYING = 1
+    const val MUSIC_PLAYING = 2
+
+    var state = 0
+    var calls = 0
 
     @Suppress("DEPRECATION")
     val audioTrack = AudioTrack(
@@ -32,21 +38,33 @@ object Player {
         override fun doInBackground(vararg sound: ShortArray): Int {
             audioTrack.write(sound[0], 0, sound[0].size)
             audioTrack.play()
-            musicPlaying = false
+            calls--
+            if (calls == 0) {
+                state = NOT_PLAYING
+                btnPlayToPlay()
+            }
             return 0
         }
     }
 
     private fun play(notes: Array<Note>) {
+        calls++
         PlaySoundTask().execute(Sound.toSound(notes))
     }
 
     fun play(melody: Melody) {
-        musicPlaying = true
+        state = MUSIC_PLAYING
+        btnPlayToStop()
         play(melody.toArray())
     }
 
     fun play(note: Note) {
+        state = NOTE_PLAYING
         play(arrayOf(note))
+    }
+
+    fun stop() {
+        audioTrack.pause()
+        audioTrack.flush()
     }
 }
