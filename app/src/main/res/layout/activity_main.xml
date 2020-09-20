@@ -17,6 +17,7 @@
 
         <Button
             android:id="@+id/btnTempo"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
@@ -26,44 +27,45 @@
             android:background="@color/whiteKey"
             android:text="@string/btnTempo"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/keyCis"
             app:layout_constraintEnd_toStartOf="@+id/btnPlay"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnPlay"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:background="@color/whiteKey"
-            android:text="@string/btnPlay"
-            android:textAllCaps="false"
-            android:textSize="14sp"
+            android:contentDescription="@string/btnPlay"
             app:layout_constraintBottom_toBottomOf="@+id/btnTempo"
             app:layout_constraintEnd_toStartOf="@+id/btnBackspace"
             app:layout_constraintStart_toEndOf="@+id/btnTempo"
-            app:layout_constraintTop_toTopOf="@+id/btnTempo" />
+            app:layout_constraintTop_toTopOf="@+id/btnTempo"
+            app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnBackspace"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:background="@color/whiteKey"
-            android:text="@string/Backspace"
-            android:textAllCaps="false"
-            android:textSize="14sp"
+            android:contentDescription="@string/btnBackspace"
             app:layout_constraintBottom_toBottomOf="@+id/btnTempo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnPlay"
-            app:layout_constraintTop_toTopOf="@+id/btnTempo" />
+            app:layout_constraintTop_toTopOf="@+id/btnTempo"
+            app:srcCompat="@drawable/ic_backspace_black_24dp" />
 
         <Button
             android:id="@+id/btnUp"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -71,7 +73,7 @@
             android:background="@color/whiteKey"
             android:text="@string/btnUp"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/btnDn"
             app:layout_constraintEnd_toStartOf="@+id/keyCis"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +81,7 @@
 
         <Button
             android:id="@+id/btnDn"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -86,7 +89,7 @@
             android:background="@color/whiteKey"
             android:text="@string/btnDn"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/keyCis"
             app:layout_constraintEnd_toEndOf="@+id/btnUp"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,6 +97,7 @@
 
         <Button
             android:id="@+id/keyCis"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -102,9 +106,9 @@
             android:layout_marginBottom="1dp"
             android:background="@color/blackKey"
             android:text="@string/noteCis"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:textColor="#FFF"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/keyC"
             app:layout_constraintEnd_toStartOf="@+id/keyEs"
             app:layout_constraintStart_toEndOf="@+id/btnUp"
@@ -112,15 +116,16 @@
 
         <Button
             android:id="@+id/keyEs"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:background="@color/blackKey"
             android:text="@string/noteEs"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:textColor="#FFF"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/keyCis"
             app:layout_constraintEnd_toStartOf="@+id/btnRest"
             app:layout_constraintStart_toEndOf="@+id/keyCis"
@@ -128,6 +133,7 @@
 
         <Button
             android:id="@+id/btnRest"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -136,7 +142,7 @@
             android:background="@color/whiteKey"
             android:text="@string/btnRest"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/btnDot"
             app:layout_constraintEnd_toStartOf="@+id/keyFis"
             app:layout_constraintStart_toEndOf="@+id/keyEs"
@@ -144,13 +150,14 @@
 
         <Button
             android:id="@+id/btnDot"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="1dp"
             android:background="@color/whiteKey"
             android:text="@string/btnDot"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/keyCis"
             app:layout_constraintEnd_toEndOf="@+id/btnRest"
             app:layout_constraintStart_toStartOf="@+id/btnRest"
@@ -158,15 +165,16 @@
 
         <Button
             android:id="@+id/keyFis"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:background="@color/blackKey"
             android:text="@string/noteFis"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:textColor="#FFF"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/keyCis"
             app:layout_constraintEnd_toStartOf="@+id/keyGis"
             app:layout_constraintStart_toEndOf="@+id/btnRest"
@@ -174,15 +182,16 @@
 
         <Button
             android:id="@+id/keyGis"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:background="@color/blackKey"
             android:text="@string/noteGis"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:textColor="#FFF"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/keyCis"
             app:layout_constraintEnd_toStartOf="@+id/keyB"
             app:layout_constraintStart_toEndOf="@+id/keyFis"
@@ -190,15 +199,16 @@
 
         <Button
             android:id="@+id/keyB"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:background="@color/blackKey"
             android:text="@string/noteB"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:textColor="#FFF"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/keyCis"
             app:layout_constraintEnd_toStartOf="@+id/btnPlus"
             app:layout_constraintStart_toEndOf="@+id/keyGis"
@@ -206,6 +216,7 @@
 
         <Button
             android:id="@+id/btnPlus"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -214,7 +225,7 @@
             android:background="@color/whiteKey"
             android:text="@string/btnPlus"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/btnMinus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/keyB"
@@ -222,13 +233,14 @@
 
         <Button
             android:id="@+id/btnMinus"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="1dp"
             android:background="@color/whiteKey"
             android:text="@string/btnMinus"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/keyCis"
             app:layout_constraintEnd_toEndOf="@+id/btnPlus"
             app:layout_constraintStart_toStartOf="@+id/btnPlus"
@@ -236,6 +248,7 @@
 
         <Button
             android:id="@+id/keyC"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -244,8 +257,8 @@
             android:layout_marginBottom="1dp"
             android:background="@color/whiteKey"
             android:text="@string/noteC"
-            android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/keyD"
             app:layout_constraintStart_toStartOf="parent"
@@ -253,6 +266,7 @@
 
         <Button
             android:id="@+id/keyD"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -260,8 +274,8 @@
             android:layout_marginBottom="1dp"
             android:background="@color/whiteKey"
             android:text="@string/noteD"
-            android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/keyE"
             app:layout_constraintStart_toEndOf="@+id/keyC"
@@ -269,6 +283,7 @@
 
         <Button
             android:id="@+id/keyE"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -276,8 +291,8 @@
             android:layout_marginBottom="1dp"
             android:background="@color/whiteKey"
             android:text="@string/noteE"
-            android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/keyF"
             app:layout_constraintStart_toEndOf="@+id/keyD"
@@ -285,6 +300,7 @@
 
         <Button
             android:id="@+id/keyF"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -292,8 +308,8 @@
             android:layout_marginBottom="1dp"
             android:background="@color/whiteKey"
             android:text="@string/noteF"
-            android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/keyG"
             app:layout_constraintStart_toEndOf="@+id/keyE"
@@ -301,6 +317,7 @@
 
         <Button
             android:id="@+id/keyG"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -308,8 +325,8 @@
             android:layout_marginBottom="1dp"
             android:background="@color/whiteKey"
             android:text="@string/noteG"
-            android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/keyA"
             app:layout_constraintStart_toEndOf="@+id/keyF"
@@ -317,6 +334,7 @@
 
         <Button
             android:id="@+id/keyA"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -324,8 +342,8 @@
             android:layout_marginBottom="1dp"
             android:background="@color/whiteKey"
             android:text="@string/noteA"
-            android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/keyH"
             app:layout_constraintStart_toEndOf="@+id/keyG"
@@ -333,6 +351,7 @@
 
         <Button
             android:id="@+id/keyH"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
@@ -340,8 +359,8 @@
             android:layout_marginBottom="1dp"
             android:background="@color/whiteKey"
             android:text="@string/noteH"
-            android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/keyA"

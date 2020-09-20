@@ -30,9 +30,14 @@ val pitchClassStr: Array<String> = arrayOf(
     "-"
 )
 
-lateinit var btnPlay: Button
-fun btnPlayToPlay() { btnPlay.setText(R.string.btnPlay) }
-fun btnPlayToStop() { btnPlay.setText(R.string.btnStop) }
+lateinit var btnPlay: ImageButton
+fun btnPlayToPlay() {
+    btnPlay.setImageResource(R.drawable.ic_play_arrow_black_24dp)
+}
+
+fun btnPlayToStop() {
+    btnPlay.setImageResource(R.drawable.ic_stop_black_24dp)
+}
 
 class MainActivity : AppCompatActivity() {
 
@@ -109,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.btnBackspace).setOnClickListener {
+        findViewById<ImageButton>(R.id.btnBackspace).setOnClickListener {
             val text = editText.text.toString()
             if (text.isNotEmpty()) {
                 editText.setText(text.dropLastWhile { it != ' ' }.dropLast(1))
@@ -117,7 +122,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.btnBackspace).setOnLongClickListener {
+        findViewById<ImageButton>(R.id.btnBackspace).setOnLongClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(R.string.confirm)
             val txt = defaultTextView(this)

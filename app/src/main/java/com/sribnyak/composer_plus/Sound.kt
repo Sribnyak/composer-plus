@@ -54,7 +54,7 @@ object Sound {
                 noteSound[noteLen - i] *= i / fadeOutLen.toDouble()
 
             for (i in noteSound.indices)
-                sound[pos+i] = (noteSound[i] * 0.7 * Short.MAX_VALUE).toShort()
+                sound[pos + i] = (noteSound[i] * 0.7 * Short.MAX_VALUE).toInt().toShort()
             pos += noteLen
         }
         return sound

@@ -1,21 +1,20 @@
 <resources>
     <string name="app_name">Composer Plus</string>
     <string name="btnTempo">Tempo = %d</string>
-    <string name="btnPlay">▶</string>
-    <string name="btnStop">■</string>
-    <string name="Backspace">⌫</string>
-    <string name="noteC">C</string>
-    <string name="noteCis">C♯</string>
-    <string name="noteD">D</string>
-    <string name="noteEs">D♯</string>
-    <string name="noteE">E</string>
-    <string name="noteF">F</string>
-    <string name="noteFis">F♯</string>
-    <string name="noteG">G</string>
-    <string name="noteGis">G♯</string>
-    <string name="noteA">A</string>
-    <string name="noteB">A♯</string>
-    <string name="noteH">B</string>
+    <string name="btnBackspace">Backspace</string>
+    <string name="btnPlay">Play/Stop</string>
+    <string name="noteC">c</string>
+    <string name="noteCis">#c</string>
+    <string name="noteD">d</string>
+    <string name="noteEs">#d</string>
+    <string name="noteE">e</string>
+    <string name="noteF">f</string>
+    <string name="noteFis">#f</string>
+    <string name="noteG">g</string>
+    <string name="noteGis">#g</string>
+    <string name="noteA">a</string>
+    <string name="noteB">#a</string>
+    <string name="noteH">b</string>
     <string name="btnRest">—</string>
     <string name="btnUp">8va</string>
     <string name="btnDn">8vb</string>
@@ -66,5 +65,5 @@
         &lt;br>
         &lt;br>This app was created as a replacement for the Nokia composer app. You can create here simple single-voice melodies using text input or the piano keyboard.
         &lt;br>
-        &lt;br>&lt;u>Developer:&lt;/u> Sribnyak Alexander</string>
+        &lt;br>&lt;u>Developer:&lt;/u> Alexander Sribnyak</string>
 </resources>
